@@ -6,6 +6,7 @@ from os import path
 from PortfolioBasic.Definitions import HeaderFactory
 from utilities import Constants, logger
 
+quandl.ApiConfig.api_key = 'XH28RzhxDVHKWwnaN1Hv'
 
 
 class MarketData(object):
@@ -32,7 +33,7 @@ class MarketData(object):
                         'Low',
                         'Volume',
                         'Close',
-                        ], axis=1, inplace=True)
+                        ], axis=1, inplace=True, errors='ignore')
 
         x_data = df.iloc[1:-days, :].values
         y_data = y_data_df.iloc[1:-days].values
@@ -126,5 +127,5 @@ class BloombergMarketDataSource(object):
             market_data.drop(labels=["PX_VOLUME"], axis=1, inplace=True)
         market_data.rename(columns={'PX_OPEN': 'Open', 'PX_HIGH': 'High', 'PX_LOW': 'Low', 'PX_VOLUME': 'Volume',
                            'PX_LAST': HeaderFactory.Price}, inplace=True)
-        market_data.dropna(inplace=True)
+        # market_data.dropna(inplace=True)
         return market_data

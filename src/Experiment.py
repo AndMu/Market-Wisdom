@@ -12,14 +12,14 @@ from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from DataLoader import DataLoader
-from MarketData import QuandlMarketDataSource, RedditMarketDataSource
+from MarketData import QuandlMarketDataSource, RedditMarketDataSource, BloombergMarketDataSource
 
 from learning.BasicLearning import RbfClassifier
 from utilities import Constants
 from utilities.Utilities import Utilities
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
-quandl.ApiConfig.api_key = ''
+quandl.ApiConfig.api_key = 'XH28RzhxDVHKWwnaN1Hv'
 
 
 def build_model(inputs, model_type):
@@ -56,8 +56,10 @@ def get_data(full_articles, sentiment_location, price_source, stock):
     loader = DataLoader()
     if price_source == 'quandl':
         source = QuandlMarketDataSource()
-    else:
+    elif price_source == 'reddit':
         source = RedditMarketDataSource()
+    else:
+        source = BloombergMarketDataSource()
     x_data, y_data = loader.load_data(stock, 5,
                                       source=source,
                                       sentiment_location=sentiment_location,
@@ -99,8 +101,7 @@ def svm_prediction(x_train, x_test, y_train):
 def processing(price_source, stock, load_articles, full_articles, processing_type='SVM'):
 
     x_data, y_data = get_data(full_articles, load_articles, price_source, stock)
-    x_data, y_data = shuffle(x_data, y_data, random_state=38)
-    x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.33, random_state=42)
+    x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.25, random_state=42)
 
     if processing_type == 'SVM':
         y_result, y_result_prob = svm_prediction(x_train, x_test, y_train)
@@ -112,14 +113,20 @@ def processing(price_source, stock, load_articles, full_articles, processing_typ
 
 
 if __name__ == '__main__':
-    item = 'JPM'
-    price_source = 'quandl'
+    item = 'EURUSD CURNCY'
+    price_source = 'bloomberg'
+    # item = 'JPM'
+    # price_source = 'quandl'
+    # # price_source = 'reddit'
     processing_type = 'SVM'
-    sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/bloomberg.results.csv')
+    sentiment_location = path.join(Constants.DATASETS_MARKET, 'Twitter/psenti.csv')
     # technical analysis
     processing(price_source, item, None, False, processing_type)
     # technical analysis + Sentiment
+    # sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/all.results.csv')
     processing(price_source, item, sentiment_location, False, processing_type)
+    # sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/reddit.results.csv')
+    # processing(price_source, item, sentiment_location, False, processing_type)
     # technical analysis + Sentiment + Mood
     processing(price_source, item, sentiment_location, True, processing_type)
 
