@@ -2,7 +2,7 @@
 
 [Published Paper](wisdom_paper.pdf)
 
-Twitter bot running as [MarketPredGuy](https://twitter.com/MarketPredGuy) and its [code](https://github.com/AndMu/Wikiled.Sentiment)
+Twitter bot running as [MarketPredGuy](https://twitter.com/MarketPredGuy) and its [code](https://github.com/AndMu/Wikiled.Market)
 
 ## *pSenti* Lexicon system
 
