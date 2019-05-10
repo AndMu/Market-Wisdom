@@ -19,7 +19,7 @@ from utilities import Constants
 from utilities.Utilities import Utilities
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
-quandl.ApiConfig.api_key = 'XH28RzhxDVHKWwnaN1Hv'
+quandl.ApiConfig.api_key = '__YOUR_KEY__'
 
 
 def build_model(inputs, model_type):
@@ -113,20 +113,17 @@ def processing(price_source, stock, load_articles, full_articles, processing_typ
 
 
 if __name__ == '__main__':
-    item = 'EURUSD CURNCY'
-    price_source = 'bloomberg'
-    # item = 'JPM'
-    # price_source = 'quandl'
-    # # price_source = 'reddit'
+    item = 'JPM'
+    price_source = 'quandl'
     processing_type = 'SVM'
     sentiment_location = path.join(Constants.DATASETS_MARKET, 'Twitter/psenti.csv')
     # technical analysis
     processing(price_source, item, None, False, processing_type)
     # technical analysis + Sentiment
-    # sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/all.results.csv')
+    sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/all.results.csv')
     processing(price_source, item, sentiment_location, False, processing_type)
-    # sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/reddit.results.csv')
-    # processing(price_source, item, sentiment_location, False, processing_type)
+    sentiment_location = path.join(Constants.DATASETS_MARKET, 'FinArticles/psenti/reddit.results.csv')
+    processing(price_source, item, sentiment_location, False, processing_type)
     # technical analysis + Sentiment + Mood
     processing(price_source, item, sentiment_location, True, processing_type)
 

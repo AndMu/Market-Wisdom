@@ -6,8 +6,6 @@ from os import path
 from PortfolioBasic.Definitions import HeaderFactory
 from utilities import Constants, logger
 
-quandl.ApiConfig.api_key = 'XH28RzhxDVHKWwnaN1Hv'
-
 
 class MarketData(object):
 

@@ -1,21 +1,11 @@
 from os import path
 import socket
 
+import tempfile
 
-hostname = socket.gethostname()
+DATASETS = path.join('..', 'DataSets')
 
-if hostname.lower() == 'main-pc':
-    ROOT_LOCATION = 'e:/'
-elif hostname.lower() == 'dev-pc':
-    ROOT_LOCATION = '//storage/monitoring'
-else:
-    ROOT_LOCATION = 'c:/'
-
-
-
-
-DATASETS = path.join(ROOT_LOCATION, 'DataSets')
-TEMP = "C:/Temp/Sentiment"
+TEMP = tempfile.gettempdir()
 
 DATASETS_MARKET = path.join(DATASETS, 'Market')
 
